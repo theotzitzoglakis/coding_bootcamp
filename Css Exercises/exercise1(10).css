@@ -1,0 +1,16 @@
+h1{text-align: center;
+  font-size: 50px;
+}
+
+.header{background-color: orange;
+  text-align: center;
+}
+
+table{text-align: center;
+  position: absolute;
+  width: 95%;
+  font-size: 20px;
+  border: 1px solid grey;
+  }
+
+th, td{border: 1px solid grey;}

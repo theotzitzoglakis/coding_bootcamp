@@ -1,0 +1,28 @@
+body{font-family: arial;}
+
+div{background-color: orange;
+  text-align: center;
+}
+
+h1{text-align: center;
+  font-weight: 700;
+}
+
+#top{text-align: center;
+  background-color: transparent;}
+
+.bold{font-weight: bold;}
+
+h2{color: blue;}
+
+.under{text-decoration: underline;}
+
+.listhead{font-weight: bold;
+  text-decoration: underline;
+}
+
+table, th, td{border: 1px solid grey;}
+
+.blue{color: blue;
+  text-align: center;
+}
