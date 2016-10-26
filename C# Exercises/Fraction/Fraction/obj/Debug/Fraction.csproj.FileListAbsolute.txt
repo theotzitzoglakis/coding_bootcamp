@@ -1,0 +1,6 @@
+c:\users\user\documents\visual studio 2015\Projects\Fraction\Fraction\bin\Debug\Fraction.exe.config
+c:\users\user\documents\visual studio 2015\Projects\Fraction\Fraction\bin\Debug\Fraction.exe
+c:\users\user\documents\visual studio 2015\Projects\Fraction\Fraction\bin\Debug\Fraction.pdb
+c:\users\user\documents\visual studio 2015\Projects\Fraction\Fraction\obj\Debug\Fraction.csprojResolveAssemblyReference.cache
+c:\users\user\documents\visual studio 2015\Projects\Fraction\Fraction\obj\Debug\Fraction.exe
+c:\users\user\documents\visual studio 2015\Projects\Fraction\Fraction\obj\Debug\Fraction.pdb

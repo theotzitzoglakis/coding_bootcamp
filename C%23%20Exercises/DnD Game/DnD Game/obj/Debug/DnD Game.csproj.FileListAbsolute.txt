@@ -1,6 +1,0 @@
-c:\users\user\documents\visual studio 2015\Projects\DnD Game\DnD Game\bin\Debug\DnD Game.exe.config
-c:\users\user\documents\visual studio 2015\Projects\DnD Game\DnD Game\obj\Debug\DnD Game.csprojResolveAssemblyReference.cache
-c:\users\user\documents\visual studio 2015\Projects\DnD Game\DnD Game\bin\Debug\DnD Game.exe
-c:\users\user\documents\visual studio 2015\Projects\DnD Game\DnD Game\bin\Debug\DnD Game.pdb
-c:\users\user\documents\visual studio 2015\Projects\DnD Game\DnD Game\obj\Debug\DnD Game.exe
-c:\users\user\documents\visual studio 2015\Projects\DnD Game\DnD Game\obj\Debug\DnD Game.pdb
