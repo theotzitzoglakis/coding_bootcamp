@@ -1,0 +1,324 @@
+﻿<!--This search is going to return results only for the dates between 10/11/2016 and 20/12/2016,
+    because these are the dates of the flights existing in my database.-->
+
+@using Model;
+@using System.Data.Entity;
+@using System.Linq;
+
+@{
+    Page.Title = "Find your Flight";
+    Layout = "~/Shared/_Layout.cshtml";
+}
+
+@{
+    var db = new Model();  //Here I connect to my database, and below I get the data for my datalists in the search form
+    var departuresList = db.Flights.Select(x => x.Departure_Airport).Distinct();
+    var destinationsList = db.Flights.Select(y => y.Arrival_Airport).Distinct();
+
+}
+
+@section h1 {
+    Search for your flight!!!
+}
+
+<!--Below here is my search form, Departure airport and Passengers are the required fields
+    I used javascript to make the "Return Flights" button reveal the date textarea.-->
+
+@section SearchArea {
+    <form action="~/Search.cshtml" method="post">
+        <table>
+            <tr>
+                <td>
+                    From: *
+                    <br />
+                    <input type="text" placeholder="Departure" name="departureCity" id="departureCity" required list="fromList" onclick="clearBox()" />
+                    <!--clearBox is a javascript function, that turns back to white the textareas that were not filled-->
+                    <datalist id="fromList">
+                        @{
+                            foreach (var dep in departuresList)
+                            {
+                                <option value="@dep">@dep</option>
+                            }
+                        }
+                    </datalist>
+                </td>
+                <td>
+                    To: <br />
+                    <input type="text" placeholder="Departure" name="destinationCity" id="destinationCity" list="toList" onclick="clearBox()" @*required*@ />
+                    <datalist id="toList">
+                        @{
+                            foreach (var des in destinationsList)
+                            {
+                                <option value="@des">@des</option>
+                            }
+                        }
+                    </datalist>
+                </td>
+                <td>
+                    Persons: * <br />
+                    <input type="number" min="1" step="1" placeholder="Persons" name="persons" id="persons" required onclick="clearBox()" />
+                </td>
+                <td>
+                    Class:
+                    <select name="classType">
+                        <option selected value="Standard">Standard</option>
+                        <option value="Student">Student</option>
+                        <option value="Child">Child</option>
+                        <option value="Coach">Coach</option>
+                        <option value="First">First</option>
+                        <option value="Business">Business</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Departure Date: <br />
+                    <input type="date" placeholder="Departure Date" name="departureDate" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                </td>
+                <td id="returnDate">
+                    Return Date: <br />
+                    <input type="date" placeholder="Return Date" name="returnDate" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                </td>
+                <td>
+                    Return flight?
+                    <input type="checkbox" name="returnCheck" onclick="reveal('returnDate')" />
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        <div id="searchButtons">
+            <label for="searchButt">
+                <img src="~/Media/button_search-now.png" />
+                <input type="submit" value="Search Now!" id="searchButt" name="searchButton" onclick="emptyText()" hidden /> <!--Empty text is a javascript function, detecting if the user filled the required fields-->
+            </label>
+            <label for="resetButton">
+                <img src="~/Media/button_clear-fields.png" />
+                <input type="reset" value="Clear fields" id="resetButton" name="resetButton" hidden />
+            </label>
+        </div>
+    </form>
+
+}
+
+<div id="resultsArea" @if (!IsPost){ <text> class="hidden" </text>  }> <!--My results area are hidden at the beginning and only show after submit-->
+    <form action="" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <td id="tableHead">Departure</td>
+                    <td id="tableHead">Destination</td>
+                    <td id="tableHead">Departure Time</td>
+                    <td id="tableHead">Arrival Time</td>
+                    <td id="tableHead">Company</td>
+                    <td id="tableHead">Flight ID</td>
+                    <td id="tableHead">Total Cost</td>
+                    <td id="tableHead">Your Choice</td>
+                </tr>
+            </thead>
+            <thead>
+                <tr>
+                    <td colspan="8" id="tableHead">Departure Flights</td>
+                </tr>
+            </thead>
+            @{
+                if (IsPost)
+                {
+                    var depSelection = Request.Form["departureCity"];
+                    var destSelection = Request.Form["destinationCity"];
+                    int personSelection = 0;
+                    if (!Request.Form["persons"].IsEmpty())
+                    {
+                        personSelection = Int32.Parse(Request.Form["persons"]);
+                    }
+                    var classSelection = Request.Form["classType"];
+                    var depDateSelection = Request.Form["departureDate"];
+                    var retDateSelection = Request.Form["returnDate"];
+
+                    if (!depSelection.IsEmpty() && retDateSelection.IsEmpty()) //No return flight
+                    {
+                        if (!depSelection.IsEmpty() && destSelection.IsEmpty() && personSelection > 0 && !depDateSelection.IsEmpty()) //Flights that leave from a certain city at a certain date, no matter the destination
+                        {
+                            DateTime dep = DateTime.Parse(depDateSelection);
+
+                            var results = db.Flights.OrderBy(b => b.Departure_Date)     //In my query I truncate time so as to check
+                                                  .Where(a => a.Departure_Airport == depSelection   //if the date parts are the same
+                                                  && a.Available_Seats >= personSelection
+                                                  && DbFunctions.TruncateTime(a.Departure_Date) == DbFunctions.TruncateTime(dep));
+
+                            if (results.Count() == 0)
+                            {
+                                <tr><td colspan="8"><h3>There is no flight matching your criteria!</h3></td></tr>
+                            }
+                            else
+                            {
+                                foreach (var res in results)
+                                {
+                                    <tr id="flightTD">
+                                        <td>@res.Departure_Airport</td>
+                                        <td>@res.Arrival_Airport</td>
+                                        <td>@res.Departure_Date</td>
+                                        <td>@res.Arrival_Date</td>
+                                        <td>@res.Company_Name</td>
+                                        <td>@res.FlightID</td>
+                                        <td>@Math.Round(res.Starting_Price * personSelection, 2)<text>&nbsp;&euro;</text></td>
+                                        <td><input type="radio" name="goFlight" value="@res.FlightID" required /></td>
+                                    </tr>
+                                }
+                            }
+                        }
+
+                        else if (!depSelection.IsEmpty() && !destSelection.IsEmpty() && personSelection > 0)
+                        {
+                            if (depDateSelection.IsEmpty()) //Flights between 2 cities, no matter the date
+                            {
+                                var results = db.Flights.OrderBy(b => b.Departure_Date)
+                                              .Where(a => a.Departure_Airport == depSelection
+                                              && a.Arrival_Airport == destSelection
+                                              && a.Available_Seats >= personSelection);
+
+                                if (results.Count() == 0)
+                                {
+                                    <tr><td colspan="8"><h3>There is no flight matching your criteria!</h3></td></tr>
+                                }
+                                else
+                                {
+                                    foreach (var res in results)
+                                    {
+                                        <tr id="flightTD">
+                                            <td>@res.Departure_Airport</td>
+                                            <td>@res.Arrival_Airport</td>
+                                            <td>@res.Departure_Date</td>
+                                            <td>@res.Arrival_Date</td>
+                                            <td>@res.Company_Name</td>
+                                            <td>@res.FlightID</td>
+                                            <td>@Math.Round(res.Starting_Price * personSelection, 2)<text>&nbsp;&euro;</text></td>
+                                            <td><input type="radio" name="goFlight" value="@res.FlightID" required /></td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                            else  //Flights between 2 cities, at a certain date
+                            {
+                                DateTime dep = DateTime.Parse(depDateSelection);
+
+                                var results = db.Flights.OrderBy(b => b.Departure_Date)
+                                                  .Where(a => a.Departure_Airport == depSelection
+                                                  && a.Arrival_Airport == destSelection
+                                                  && a.Available_Seats >= personSelection
+                                                  && DbFunctions.TruncateTime(a.Departure_Date) == DbFunctions.TruncateTime(dep));
+
+                                if (results.Count() == 0)
+                                {
+                                    <tr><td colspan="8"><h3>There is no flight matching your criteria!</h3></td></tr>
+                                }
+                                else
+                                {
+                                    foreach (var res in results)
+                                    {
+                                        <tr id="flightTD">
+                                            <td>@res.Departure_Airport</td>
+                                            <td>@res.Arrival_Airport</td>
+                                            <td>@res.Departure_Date</td>
+                                            <td>@res.Arrival_Date</td>
+                                            <td>@res.Company_Name</td>
+                                            <td>@res.FlightID</td>
+                                            <td>@Math.Round(res.Starting_Price * personSelection, 2)<text>&nbsp;&euro;</text></td>
+                                            <td><input type="radio" name="goFlight" value="@res.FlightID" required /></td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else  //Flights between 2 cities, with return
+                    {
+                        DateTime dep2 = DateTime.Parse(depDateSelection);
+                        DateTime ret = DateTime.Parse(retDateSelection);
+
+                        var resultsGo = db.Flights.OrderBy(b => b.Departure_Date)
+                                              .Where(a => a.Departure_Airport == depSelection
+                                              && a.Arrival_Airport == destSelection
+                                              && a.Available_Seats >= personSelection
+                                              && DbFunctions.TruncateTime(a.Departure_Date) == DbFunctions.TruncateTime(dep2));
+
+                        if (resultsGo.Count() == 0)
+                        {
+                            <tr><td colspan="8"><h3>There is no departure flight matching your criteria!</h3></td></tr>
+                        }
+                        else
+                        {
+                            foreach (var res in resultsGo)
+                            {
+                                <tr id="flightTD">
+                                    <td>@res.Departure_Airport</td>
+                                    <td>@res.Arrival_Airport</td>
+                                    <td>@res.Departure_Date</td>
+                                    <td>@res.Arrival_Date</td>
+                                    <td>@res.Company_Name</td>
+                                    <td>@res.FlightID</td>
+                                    <td>@Math.Round(res.Starting_Price * personSelection, 2)<text>&nbsp;&euro;</text></td>
+                                    <td><input type="radio" name="goFlight" value="@res.FlightID" required /></td>
+                                </tr>
+                            }
+                        }
+
+                        <thead>
+                            <tr>
+                                <td colspan="8" id="tableHead">Return Flights</td>
+                            </tr>
+                        </thead>
+
+                        var resultsReturn = db.Flights.OrderBy(b => b.Departure_Date)
+                                      .Where(a => a.Departure_Airport == destSelection
+                                      && a.Arrival_Airport == depSelection
+                                      && a.Available_Seats >= personSelection
+                                      && DbFunctions.TruncateTime(a.Departure_Date) == DbFunctions.TruncateTime(ret));
+
+                        if (resultsReturn.Count() == 0)
+                        {
+                            <tr><td colspan="8"><h3>There is no return flight matching your criteria!</h3></td></tr>
+                        }
+                        else
+                        {
+                            foreach (var res in resultsReturn)
+                            {
+                                <tr id="flightTD">
+                                    <td>@res.Departure_Airport</td>
+                                    <td>@res.Arrival_Airport</td>
+                                    <td>@res.Departure_Date</td>
+                                    <td>@res.Arrival_Date</td>
+                                    <td>@res.Company_Name</td>
+                                    <td>@res.FlightID</td>
+                                    <td>@Math.Round(res.Starting_Price * personSelection, 2)<text>&nbsp;&euro;</text></td>
+                                    <td><input type="radio" name="retFlight" value="@res.FlightID" required /></td>
+                                </tr>
+                            }
+                        }
+                    }
+                    <tr><td colspan="8"></td></tr>
+                    <tr>
+                        <td colspan="8"> <!--Here I return the data inserted for the user to see-->
+                            Your flight search was for @personSelection persons, from @depSelection
+                            @{ if (!destSelection.IsEmpty())
+                                {<text>to </text> @destSelection }
+                                if (!depDateSelection.IsEmpty())
+                                { <text>at</text> @depDateSelection}
+                                if (!retDateSelection.IsEmpty())
+                                { <text>returning at</text> @retDateSelection}
+                                <text>.</text>
+                            }
+
+
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+        <div id="bookButton">
+            <label for="bookButt">
+                <img src="~/Media/button_book-now.png" />
+                <input type="submit" value="Book Now!!!" id="bookButt" hidden />
+            </label>
+        </div>
+    </form>
+</div>

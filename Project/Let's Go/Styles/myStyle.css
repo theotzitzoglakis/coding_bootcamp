@@ -1,0 +1,162 @@
+﻿@media all and (-ms-high-contrast:none)
+     {
+     *::-ms-backdrop, #searchButtons img, #bookButton img{display:none;}
+     #searchButt, #resetButton, #bookButt{display:inline;}
+     }
+
+body {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size:16px;
+    background-color:#e8e8e8;
+}
+
+#header {
+    display:flex;
+    justify-content:space-between;    
+    width:auto;
+    align-items:stretch;
+    height:140px;
+    background-color:#31b4d5;
+    margin:0px;
+    padding:0px;
+}
+
+#footer {
+    text-align:center;
+    background-color:#31b4d5;
+    font-size:14px;
+    color:white;
+    font-style:italic;
+    border-top:1px solid blue;
+    padding:30px;
+}
+
+#footer a:hover{
+    color:yellow;
+}
+
+nav {
+    display:inline-block;
+    margin-left:auto;
+}
+
+#login, #aboutUs {
+    display:inline-block;
+    width:auto;
+    padding:55px;
+    background-color:transparent;
+    margin:auto;
+    font-style:italic;
+    font-size:24px;
+    font-weight:700;
+    text-decoration:none;
+    color:white;
+}
+
+#logo {
+    display:inline-block;
+    justify-content:flex-start;
+    background-color:transparent;
+    margin:0px 20px 0px 20px;
+    padding:0px;
+}
+
+#login:hover{
+    background-color:#2689b1;
+}
+
+#login a:visited {
+    color:white;
+}
+
+#aboutUs:hover {
+     background-color:#2689b1;
+}
+
+#aboutUs a:visited {
+    color:white;
+}
+
+#searchArea {
+    font-size:20px;
+    border-bottom:2px solid blue;
+}
+
+#searchArea td {
+    width:25%;
+    height:70px;
+}
+
+#searchArea table {
+    width:100%;
+    font-size:20px;
+    color:blue;
+    text-align:center;
+}
+
+h1 {
+    font-style:italic;
+    color:darkblue;
+    font-size:28px;
+}
+
+#searchButtons {
+    text-align:center;
+    margin:30px;
+}
+
+#searchButtons img {
+    width:10%;
+    margin:15px;
+}
+
+#resultsArea {
+    width:99%;
+}
+
+#resultsArea table {
+    width:100%;
+    text-align:center;
+    /*border:3px groove lightblue;*/
+    margin:30px 8px 30px 8px;
+}
+
+#resultsArea td {
+        width: auto;
+        height:40px;
+        /*border: 1px groove lightblue;*/
+}
+
+#resultsArea tr:nth-of-type(2n) {
+    background-color:#fcfcfc;
+}
+
+#tableHead {
+    font-size:22px;
+    color:#0c0c60;
+    text-decoration:underline;
+}
+
+#flightTD {
+    font-size:18px;
+    color:#565656
+}
+
+#bookButton {
+    text-align:center;
+    margin:30px;
+}
+
+#bookButton img {
+    width:15%;
+    margin:20px;
+}
+
+#returnDate{
+    display:none;
+    text-align:center;
+}
+
+.hidden {
+    display: none;
+}
