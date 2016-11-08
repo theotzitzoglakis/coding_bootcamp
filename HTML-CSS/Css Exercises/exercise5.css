@@ -1,0 +1,21 @@
+h1{text-align: center;
+  color: #660000;
+}
+
+#wrapper{margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #ababab;
+  width: 960px;
+  background-color: #ffffff;
+  background-image: url(images/spiral42.gif);
+  background-repeat: repeat-y;
+  }
+
+.article{margin-left: 42px;
+  padding: 10px;
+}
+
+body{background-color: #F9F9F9;
+  font-family: verdana;
+  color: #220000;
+}
