@@ -5,17 +5,19 @@
         <meta charset="utf-8" />
         <link type="text/css" rel="stylesheet" href="~/Styles/myStyle.css" />
         <script src="~/Scripts/myScript.js"></script>
-        @RenderSection("head", required: false)
     </head>
     <body>
         <header>@RenderPage("/Shared/_header.cshtml")</header>
         <main>
-            <h1>@RenderSection("h1")</h1>
+            <h1>@RenderSection("h1", required:false)</h1>
             <div id="searchArea">
-                @RenderSection("SearchArea")
+                @RenderSection("SearchArea", required:false)
             </div>
                 @RenderBody()
         </main>
+        <div>
+            <img src="~/Media/plane.png" alt="planeImage" class="animation" />
+        </div>
         <footer>@RenderPage("/Shared/_footer.cshtml")</footer>
     </body>
 </html>

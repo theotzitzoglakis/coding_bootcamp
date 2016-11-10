@@ -100,8 +100,9 @@
 
 }
 
-<div id="resultsArea" @if (!IsPost){ <text> class="hidden" </text>  }> <!--My results area are hidden at the beginning and only show after submit-->
-    <form action="" method="post">
+<div id="resultsArea" @if (!IsPost)
+{ <text> class="hidden" </text>  }> <!--My results area are hidden at the beginning and only show after submit-->
+    <form action="~/Booking.cshtml" method="post">
         <table>
             <thead>
                 <tr>
@@ -121,7 +122,7 @@
                 </tr>
             </thead>
             @{
-                if (IsPost)
+                if (IsPost && Request.Form["searchButton"]!=null)
                 {
                     var depSelection = Request.Form["departureCity"];
                     var destSelection = Request.Form["destinationCity"];
@@ -311,13 +312,14 @@
 
                         </td>
                     </tr>
-                }
-            }
+                  
+                                    }
+                                }
         </table>
         <div id="bookButton">
             <label for="bookButt">
                 <img src="~/Media/button_book-now.png" />
-                <input type="submit" value="Book Now!!!" id="bookButt" hidden />
+                <input type="submit" value="Book Now!!!" id="bookButt" name="bookButt" hidden />
             </label>
         </div>
     </form>
