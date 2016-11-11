@@ -73,11 +73,11 @@
             <tr>
                 <td>
                     Departure Date: <br />
-                    <input type="date" placeholder="Departure Date" name="departureDate" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                    <input type="date" placeholder="mm-dd-yyyy" name="departureDate" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
                 </td>
                 <td id="returnDate">
                     Return Date: <br />
-                    <input type="date" placeholder="Return Date" name="returnDate" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                    <input type="date" placeholder="mm-dd-yyyy" name="returnDate" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
                 </td>
                 <td>
                     Return flight?
@@ -157,8 +157,8 @@
                                     <tr id="flightTD">
                                         <td>@res.Departure_Airport</td>
                                         <td>@res.Arrival_Airport</td>
-                                        <td>@res.Departure_Date</td>
-                                        <td>@res.Arrival_Date</td>
+                                        <td>@res.Departure_Date.ToString("dd/MM/yyyy h:mm tt")</td>
+                                        <td>@res.Arrival_Date.ToString("dd/MM/yyyy h:mm tt")</td>
                                         <td>@res.Company_Name</td>
                                         <td>@res.FlightID</td>
                                         <td>@Math.Round(res.Starting_Price * personSelection, 2)<text>&nbsp;&euro;</text></td>
@@ -188,8 +188,8 @@
                                         <tr id="flightTD">
                                             <td>@res.Departure_Airport</td>
                                             <td>@res.Arrival_Airport</td>
-                                            <td>@res.Departure_Date</td>
-                                            <td>@res.Arrival_Date</td>
+                                            <td>@res.Departure_Date.ToString("dd/MM/yyyy h:mm tt")</td>
+                                            <td>@res.Arrival_Date.ToString("dd/MM/yyyy h:mm tt")</td>
                                             <td>@res.Company_Name</td>
                                             <td>@res.FlightID</td>
                                             <td>@Math.Round(res.Starting_Price * personSelection, 2)<text>&nbsp;&euro;</text></td>
@@ -219,8 +219,8 @@
                                         <tr id="flightTD">
                                             <td>@res.Departure_Airport</td>
                                             <td>@res.Arrival_Airport</td>
-                                            <td>@res.Departure_Date</td>
-                                            <td>@res.Arrival_Date</td>
+                                            <td>@res.Departure_Date.ToString("dd/MM/yyyy h:mm tt")</td>
+                                            <td>@res.Arrival_Date.ToString("dd/MM/yyyy h:mm tt")</td>
                                             <td>@res.Company_Name</td>
                                             <td>@res.FlightID</td>
                                             <td>@Math.Round(res.Starting_Price * personSelection, 2)<text>&nbsp;&euro;</text></td>
@@ -253,8 +253,8 @@
                                 <tr id="flightTD">
                                     <td>@res.Departure_Airport</td>
                                     <td>@res.Arrival_Airport</td>
-                                    <td>@res.Departure_Date</td>
-                                    <td>@res.Arrival_Date</td>
+                                    <td>@res.Departure_Date.ToString("dd/MM/yyyy h:mm tt")</td>
+                                    <td>@res.Arrival_Date.ToString("dd/MM/yyyy h:mm tt")</td>
                                     <td>@res.Company_Name</td>
                                     <td>@res.FlightID</td>
                                     <td>@Math.Round(res.Starting_Price * personSelection, 2)<text>&nbsp;&euro;</text></td>
@@ -286,8 +286,8 @@
                                 <tr id="flightTD">
                                     <td>@res.Departure_Airport</td>
                                     <td>@res.Arrival_Airport</td>
-                                    <td>@res.Departure_Date</td>
-                                    <td>@res.Arrival_Date</td>
+                                    <td>@res.Departure_Date.ToString("dd/MM/yyyy h:mm tt")</td>
+                                    <td>@res.Arrival_Date.ToString("dd/MM/yyyy h:mm tt")</td>
                                     <td>@res.Company_Name</td>
                                     <td>@res.FlightID</td>
                                     <td>@Math.Round(res.Starting_Price * personSelection, 2)<text>&nbsp;&euro;</text></td>

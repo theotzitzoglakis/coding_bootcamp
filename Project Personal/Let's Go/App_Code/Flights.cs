@@ -36,9 +36,11 @@ namespace Model
         public int Available_Seats { get; set; }
 
         [Column("Departure Date")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Departure_Date { get; set; }
 
         [Column("Arrival Date")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Arrival_Date { get; set; }
 
         [Column("Starting Price", TypeName = "money")]
