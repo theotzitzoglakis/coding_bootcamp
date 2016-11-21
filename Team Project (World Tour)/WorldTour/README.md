@@ -4,7 +4,4 @@ The site is uploaded at: http://worldtourproject.azurewebsites.net
 
 Team Members:
 
-Theo Tzitzoglakis
-Christos Botsas
-Dimitris Gkimisis
-Giannis Karopoulos
+Theo Tzitzoglakis, Christos Botsas, Dimitris Gkimisis, Giannis Karopoulos
